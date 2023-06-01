@@ -49,6 +49,15 @@ class AdventureScene extends Phaser.Scene {
                 }
             });
 
+        this.discard = this.add.text(this.w * 0.88 + this.s, this.h * 0.66, "❌")
+            .setStyle({ fontSize: `${2 * this.s}px` })
+            .setInteractive({useHandCursor: true})
+            .setAlpha(0)
+            .on('pointerover', () => this.showMessage('Discard last item?'))
+            .on('pointerdown', () => {
+                this.dropItems();
+            });
+
         this.onEnter();
 
     }
@@ -70,9 +79,19 @@ class AdventureScene extends Phaser.Scene {
                 alpha: 1,
                 duration: this.transitionDuration
             });
+            this.tweens.add({
+                targets: this.discard,
+                alpha: 1,
+                duration: this.transitionDuration
+            });
         } else {
             this.tweens.add({
                 targets: this.inventoryBanner,
+                alpha: 0,
+                duration: this.transitionDuration
+            });
+            this.tweens.add({
+                targets: this.discard,
                 alpha: 0,
                 duration: this.transitionDuration
             });
@@ -113,6 +132,13 @@ class AdventureScene extends Phaser.Scene {
                 });
             }
         }
+    }
+
+    dropItems() {
+        this.time.delayedCall(500, () => {
+            this.inventory.pop();
+            this.updateInventory();
+        });
     }
 
     loseItem(item) {
