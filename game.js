@@ -241,9 +241,6 @@ by a loud thunderclap`);
                 this.registry.set('weather', this.weather);
             });
 
-        this.add.text(50, 50, this.weather)
-            .setFontSize(this.s * 2);
-
         this.add.text(640, 250, "Storm")
             .setFontSize(this.s * 2);
         this.add.text(650, 850, "Wind")
